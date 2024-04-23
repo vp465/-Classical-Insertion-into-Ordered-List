@@ -1,0 +1,44 @@
+def bernstein_vazirani_algorithm(n, oracle):
+    """
+    Classical implementation of the Bernstein-Vazirani Algorithm.
+    
+    Args:
+    - n: Integer, the number of qubits in the input register.
+    - oracle: List of integers, the binary string to be recovered.
+    
+    Returns:
+    - recovered_string: List of integers, the binary string recovered from the oracle.
+    """
+    # Initialize the input register to |0...0>.
+    input_register = [0] * n
+    
+    # Apply Hadamard gates to create superposition.
+    for i in range(n):
+        input_register[i] = 1
+    
+    # Apply the oracle function.
+    for i in range(n):
+        if oracle[i] == 1:
+            input_register[i] *= -1
+    
+    # Measure the input register to retrieve the hidden string.
+    recovered_string = [0] * n
+    for i in range(n):
+        if input_register[i] == -1:
+            recovered_string[i] = 1
+            
+    return recovered_string
+
+# Example usage
+if __name__ == "__main__":
+    # Define the oracle (hidden binary string)
+    oracle = [0, 1, 0, 1]
+    
+    # Number of qubits in the input register
+    n = len(oracle)
+    
+    # Run the algorithm
+    recovered_string = bernstein_vazirani_algorithm(n, oracle)
+    
+    # Print the recovered string
+    print("Recovered String:", recovered_string)
