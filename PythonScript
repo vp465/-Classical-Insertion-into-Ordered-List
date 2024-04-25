@@ -1,14 +1,14 @@
 def bernstein_vazirani_algorithm(n, oracle):
-    """
+    
     Classical implementation of the Bernstein-Vazirani Algorithm.
     
-    Args:
+    #Args:
     - n: Integer, the number of qubits in the input register.
     - oracle: List of integers, the binary string to be recovered.
     
     Returns:
     - recovered_string: List of integers, the binary string recovered from the oracle.
-    """
+    
     # Initialize the input register to |0...0>.
     input_register = [0] * n
     
