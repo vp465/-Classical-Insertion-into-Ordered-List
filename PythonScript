@@ -1,44 +1,40 @@
-def bernstein_vazirani_algorithm(n, oracle):
+# Classical insertion operation example
+def classical_insertion_operation(sorted_list, element):
+    """
+    Classical insertion operation to insert an element into a sorted list.
     
-    Classical implementation of the Bernstein-Vazirani Algorithm.
-    
-    #Args:
-    - n: Integer, the number of qubits in the input register.
-    - oracle: List of integers, the binary string to be recovered.
+    Args:
+    - sorted_list: List of integers, a sorted list.
+    - element: Integer, the element to be inserted into the list.
     
     Returns:
-    - recovered_string: List of integers, the binary string recovered from the oracle.
+    - updated_list: List of integers, the sorted list with the element inserted.
+    """
+    updated_list = sorted_list[:]  # Make a copy of the original list
     
-    # Initialize the input register to |0...0>.
-    input_register = [0] * n
+    # Find the appropriate insertion position
+    position = 0
+    for i in range(len(updated_list)):
+        if updated_list[i] < element:
+            position += 1
+        else:
+            break
     
-    # Apply Hadamard gates to create superposition.
-    for i in range(n):
-        input_register[i] = 1
+    # Insert the element at the position indicated by the oracle
+    updated_list.insert(position, element)
     
-    # Apply the oracle function.
-    for i in range(n):
-        if oracle[i] == 1:
-            input_register[i] *= -1
-    
-    # Measure the input register to retrieve the hidden string.
-    recovered_string = [0] * n
-    for i in range(n):
-        if input_register[i] == -1:
-            recovered_string[i] = 1
-            
-    return recovered_string
+    return updated_list
 
-# Example usage
+# Example usage of classical insertion operation
 if __name__ == "__main__":
-    # Define the oracle (hidden binary string)
-    oracle = [0, 1, 0, 1]
+    # Define a sorted list
+    sorted_list = [1, 3, 5, 7, 9]
     
-    # Number of qubits in the input register
-    n = len(oracle)
+    # Element to be inserted
+    element = 4
     
-    # Run the algorithm
-    recovered_string = bernstein_vazirani_algorithm(n, oracle)
+    # Perform the insertion operation
+    updated_list = classical_insertion_operation(sorted_list, element)
     
-    # Print the recovered string
-    print("Recovered String:", recovered_string)
+    # Print the updated list
+    print("Updated List after insertion:", updated_list)
