@@ -1,33 +1,29 @@
-namespace InsertionSortExample {
+// Define your Q# operation
+operation InsertIntoSortedList(sortedList : Int[], element : Int) : String {
+    mutable i = 0;
+    mutable found = false;
 
-    // Function to insert element into a sorted list
-    operation InsertIntoSortedList(sortedList : Int[], element : Int) : Unit {
-        mutable i = 0;
-        mutable found = false;
-        while (i < Length(sortedList) and not found) {
-            if (sortedList[i] > element) {
-                set found = true;
-            }
-            if (not found) {
-                set i = i + 1;
-            }
+    // Use repeat-until-success pattern
+    repeat {
+        if (i == Length(sortedList) or sortedList[i] > element) {
+            set found = true;
+        } else {
+            set i = i + 1;
         }
-        let updatedList = sortedList[0 .. i] + [element] + sortedList[i .. Length(sortedList) - 1];
-        Message($"The list after insertion is: {updatedList}");
-        return (); // Explicitly return Unit
-    }
+    } until (found or i == Length(sortedList));
 
-    // Entry point for the code
-    @EntryPoint()
-    operation Main() : Unit {
-        // Initialize sorted list
-        let testList = [1, 2, 3, 6, 7];
+    // Insert the element into the list
+    let updatedList = sortedList[0 .. i] + [element] + sortedList[i .. Length(sortedList) - 1];
+    return $"The list after insertion is: {updatedList}";
+}
 
-        // Print original list
-        Message($"The original list is: {testList}");
+// Main entry point
+operation Main() : Unit {
+    // Define test list and element
+    let testList = [1, 2, 3, 6, 7];
+    let k = 5;
 
-        // Insert element into sorted list
-        let k = 5;
-        InsertIntoSortedList(testList, k);
-    }
+    // Call the Q# operation
+    let result = InsertIntoSortedList(testList, k);
+    Message(result);
 }
