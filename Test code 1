@@ -1,5 +1,6 @@
-// Define your Q# operation
-operation InsertIntoSortedList(sortedList : Int[], element : Int) : String {
+open Microsoft.Quantum.Diagnostics;
+
+operation InsertIntoSortedList(sortedList : Int[], element : Int) : (Int[], String) {
     mutable i = 0;
     mutable found = false;
 
@@ -14,16 +15,15 @@ operation InsertIntoSortedList(sortedList : Int[], element : Int) : String {
 
     // Insert the element into the list
     let updatedList = sortedList[0 .. i] + [element] + sortedList[i .. Length(sortedList) - 1];
-    return $"The list after insertion is: {updatedList}";
+
+    // Return the updated list and the message as a tuple
+    let message = $"The list after insertion is: {updatedList}";
+    DumpMachine(message);
+    return (updatedList, message);
 }
 
-// Main entry point
-operation Main() : Unit {
-    // Define test list and element
-    let testList = [1, 2, 3, 6, 7];
-    let k = 5;
-
-    // Call the Q# operation
-    let result = InsertIntoSortedList(testList, k);
-    Message(result);
+operation TestInsertIntoSortedList() : Unit {
+    let sortedList = [1, 3, 5];
+    let element = 2;
+    let (updatedList, message) = InsertIntoSortedList(sortedList, element);
 }
